@@ -1,0 +1,48 @@
+{
+  "name": "mindsmachines-connect4",
+  "version": "1.0.0",
+  "description": "A moderator Connect 4 program for the use of the RPI Minds and Machines course for the final project",
+  "scripts": {
+    "server-dev": "nodemon src/server 5000",
+    "server": "node src/server 5000",
+    "client-dev": "react-scripts start",
+    "build-client": "react-scripts build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/exoRift/mindsmachines-connect4.git"
+  },
+  "author": "exoRift",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/exoRift/mindsmachines-connect4/issues"
+  },
+  "dependencies": {
+    "@polka/send-type": "^0.5.2",
+    "eslint": "^8.27.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-config-standard": "^17.0.0",
+    "express": "^4.18.2",
+    "express-ws": "^5.0.2",
+    "mass-require": "^1.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "^5.0.1"
+  },
+  "devDependencies": {
+    "dotenv-cli": "^6.0.0",
+    "nodemon": "^2.0.20"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

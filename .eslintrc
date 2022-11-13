@@ -1,0 +1,19 @@
+{
+  "extends": ["standard", "react-app"],
+  "rules": {
+    "array-bracket-spacing": "error",
+    "no-lonely-if": "warn",
+    "arrow-parens": "error",
+    "no-var": "error",
+    "prefer-const": "error",
+    "max-len": [
+      "warn",
+      {
+        "code": 155,
+        "tabWidth": 2,
+        "ignoreComments": true
+      }
+    ],
+    "quote-props": "warn"
+  }
+}
