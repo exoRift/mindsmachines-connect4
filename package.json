@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@polka/send-type": "^0.5.2",
+    "cors": "^2.8.5",
     "eslint": "^8.27.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-config-standard": "^17.0.0",

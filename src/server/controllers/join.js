@@ -14,6 +14,7 @@ module.exports = {
 
         ++game.players
         ws.send('ACK')
+        game.emit('start')
 
         req.handleGame(ws, req, game, 2)
       }
