@@ -1,0 +1,8 @@
+{
+  "short_name": "Connect 4",
+  "name": "Minds and Machines Connect 4",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff"
+}
