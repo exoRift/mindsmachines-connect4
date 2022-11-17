@@ -42,6 +42,11 @@
   font-family: 'Roboto';
 }
 
+.header * {
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+}
+
 .page.active .header h1 span:first-child {
   transition: 1s;
   color: var(--yellow);

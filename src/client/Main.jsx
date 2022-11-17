@@ -5,7 +5,7 @@ import Observer from './modules/Observer.jsx'
 import './styles/Main.css'
 
 class Main extends React.Component {
-  static refreshRate = 5000
+  static refreshRate = 1000
 
   state = {
     server: null,
