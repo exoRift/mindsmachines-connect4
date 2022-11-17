@@ -1,6 +1,8 @@
 :root {
   --red: #ee2a36;
-  --yellow: #ffca02;
+  --yellow: #fde006;
+
+  --board: #205df0;
 
   --blue: #0079c7;
   --blue-accent: #156ee3;
@@ -8,11 +10,5 @@
 }
 
 body {
-  height: 100vh;
   margin: 0;
-}
-
-#root {
-  width: 100%;
-  height: 100%;
 }

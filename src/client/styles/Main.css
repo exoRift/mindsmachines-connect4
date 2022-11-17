@@ -3,11 +3,10 @@
 .page {
   transition: 1s;
   display: flex;
-  width: 100%;
-  height: 100%;
   flex-direction: column;
   align-items: center;
   gap: 5%;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .page.active {
@@ -54,11 +53,9 @@
 
 form.connection {
   display: flex;
-  width: 100%;
-  height: 100%;
   flex-direction: column;
   align-items: center;
-  gap: 5%;
+  gap: 3em;
 }
 
 input.server {
@@ -70,14 +67,23 @@ button.connect {
 }
 
 .games {
+  position: relative;
   display: flex;
-  width: 60%;
-  height: 60%;
+  width: 60vw;
+  height: 80vh;
   justify-content: center;
   align-items: center;
+  align-content: center;
   flex-wrap: wrap;
   gap: 10%;
   animation: fadein 2s linear normal forwards;
+}
+
+.games::before {
+  content: 'Choose a game to spectate';
+  position: absolute;
+  top: 0;
+  font-size: 1.5em;
 }
 
 .games .gamecard {
@@ -93,6 +99,28 @@ button.connect {
 .games .gamecard:hover {
   transform: scale(1.1);
   filter: brightness(1.1);
+}
+
+button.return {
+  transition: 0.4s;
+  position: absolute;
+  top: 2%;
+  left: 2%;
+  padding: 1%;
+  background: var(--red);
+  font-size: 1em;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+button.return:hover {
+  transform: scale(1.03);
+  filter: brightness(1.2);
+}
+button.return::before {
+  content: '\21a9';
+  margin-right: 0.5em;
 }
 
 @keyframes backgroundanim {

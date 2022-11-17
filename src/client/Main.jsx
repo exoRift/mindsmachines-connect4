@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Board from './modules/Board.jsx'
+import Observer from './modules/Observer.jsx'
 
 import './styles/Main.css'
 
@@ -41,14 +41,22 @@ class Main extends React.Component {
 
         {this.state.server
           ? this.state.currentGame
-            ? null
+            ? (
+              <>
+                <button className='return' onClick={this.setGame.bind(this, null)}>Return to game selection</button>
+
+                <Observer server={this.state.server} game={this.state.currentGame}/>
+              </>
+              )
             : (
               <div className='games'>
-                {this.state.games.map((g, i) => (
-                  <div className='gamecard' key={i} onClick={() => this.setState({ currentGame: g })}>
-                    <span>{g}</span>
-                  </div>
-                ))}
+                {this.state.games.length
+                  ? this.state.games.map((g, i) => (
+                    <div className='gamecard' key={i} onClick={this.setGame.bind(this, g)}>
+                      <span>{g}</span>
+                    </div>
+                  ))
+                  : <span>No games found!</span>}
               </div>
               )
           : (
@@ -80,15 +88,13 @@ class Main extends React.Component {
   }
 
   testServer (e) {
-    const server = 'http://' + this.state.inputs.server
-
-    e.preventDefault()
+    e?.preventDefault?.()
 
     this.setState({
       inputLocked: true
     })
 
-    return fetch(server, {
+    return fetch('http://' + this.state.inputs.server, {
       method: 'GET'
     })
       .then((res) => {
@@ -98,11 +104,11 @@ class Main extends React.Component {
       .then((msg) => {
         if (msg === 'connect4') {
           this.setState({
-            server
+            server: this.state.inputs.server
           })
 
-          this.refreshGames(server)
-          this.refreshInterval = setInterval(() => this.refreshGames(server), Main.refreshRate)
+          this.refreshGames(this.state.inputs.server)
+          this.refreshInterval = setInterval(() => this.refreshGames(this.state.inputs.server), Main.refreshRate)
         } else throw Error()
       })
       .catch(() => alert('Could not connect to server!'))
@@ -110,7 +116,7 @@ class Main extends React.Component {
   }
 
   refreshGames (server) {
-    return fetch(server + '/list', {
+    return fetch(`http://${server}/list`, {
       method: 'GET'
     })
       .then((res) => {
@@ -123,6 +129,15 @@ class Main extends React.Component {
         })
       })
       .catch(() => alert('Could not get active games!'))
+  }
+
+  setGame (game) {
+    this.setState({
+      currentGame: game
+    })
+
+    if (game) clearInterval(this.refreshInterval)
+    else this.testServer()
   }
 }
 

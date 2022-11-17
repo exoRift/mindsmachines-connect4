@@ -1,6 +1,6 @@
 module.exports = {
   method: 'ws',
-  route: '/observe',
+  route: '/observe/:id',
   action: function (ws, req, res) {
     const game = req.manager.getGame(req.params.id)
 
@@ -8,6 +8,9 @@ module.exports = {
       console.log(req.connection.remoteAddress, 'observing game', game.id)
 
       ws.send(`BOARD:${JSON.stringify(game.board)}`)
+
+      game.on('start', () => ws.send('GAMESTART'))
+      if (game.players >= 2) ws.send('GAMESTART')
 
       game.on('move', (player, col) => {
         ws.send(`MOVE:${player}/${col}`)

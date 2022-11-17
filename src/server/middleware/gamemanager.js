@@ -41,10 +41,10 @@ class Game extends EventEmitter {
     const row = this.board[lastMove].length - 1
 
     const won = (
-      (this.countChain(player, lastMove, row, -1, 0) + this.countChain(player, lastMove + 1, row, 1, 0)) >= Game.combo || // Vertical
-      (this.countChain(player, lastMove, row, 0, -1) + this.countChain(player, lastMove, row + 1, 0, 1)) >= Game.combo || // Horizontal
-      (this.countChain(player, lastMove, row, -1, -1) + this.countChain(player, lastMove + 1, row + 1, 1, 1)) >= Game.combo || // Positive slope diagonal
-      (this.countChain(player, lastMove + 1, row, 1, -1) + this.countChain(player, lastMove, row + 1, -1, 1)) >= Game.combo // Negative slope diagonal
+      (this.countChain(player, lastMove, row, -1, 0) + this.countChain(player, lastMove, row, 1, 0)) - 1 >= Game.combo || // Vertical
+      (this.countChain(player, lastMove, row, 0, -1) + this.countChain(player, lastMove, row, 0, 1)) - 1 >= Game.combo || // Horizontal
+      (this.countChain(player, lastMove, row, -1, -1) + this.countChain(player, lastMove, row, 1, 1)) - 1 >= Game.combo || // Positive slope diagonal
+      (this.countChain(player, lastMove, row, 1, -1) + this.countChain(player, lastMove, row, -1, 1)) - 1 >= Game.combo // Negative slope diagonal
     )
 
     if (won) this.emit('win', player)
@@ -54,15 +54,12 @@ class Game extends EventEmitter {
   countChain (player, col, row, colIncrement, rowIncrement) {
     let count = 0
 
-    for (let c = col; c && c < this.board.length; c += colIncrement) {
-      for (let r = row; r < this.board[c].length; r += rowIncrement) {
-        if (this.board[c][r] !== player) return count
-        else ++count
+    while (col > -1 && col < this.board.length && row > -1 && row < this.board[col].length) {
+      if (this.board[col][row] !== player) return count
+      else ++count
 
-        if (!rowIncrement) break
-      }
-
-      if (!colIncrement) break
+      col += colIncrement
+      row += rowIncrement
     }
 
     return count

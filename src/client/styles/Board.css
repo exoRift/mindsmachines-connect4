@@ -1,0 +1,55 @@
+.board {
+  display: flex;
+  padding: 2em;
+  gap: 2em;
+  background: var(--board);
+  border-radius: 20px;
+}
+
+.board .column {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 1em;
+}
+
+.board .column .row {
+  width: 4em;
+  height: 4em;
+  background: lavender;
+  border-radius: 50%;
+}
+
+.board .column .row .piece {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  mix-blend-mode: darken;
+  animation: slide-in 0.5s linear 1 normal forwards;
+}
+.board .column .row .piece[player='1'] {
+  background: var(--red);
+}
+.board .column .row .piece[player='2'] {
+  background: var(--yellow);
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateY(-50vh);
+  }
+  50% {
+    transform: translateY(0vh);
+  }
+  60% {
+    transform: translateY(-2vh);
+  }
+  70% {
+    transform: translateY(0vh);
+  }
+  90% {
+    transform: translateY(-1vh);
+  }
+  100% {
+    transform: none;
+  }
+}
