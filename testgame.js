@@ -6,7 +6,7 @@ p1.addEventListener('message', async (e) => {
   const [command, data] = e.data.split(':')
 
   if (command === 'ID') {
-    await sleep(100)
+    await sleep(1500)
     const p2 = new WebSocket('ws://localhost:5000/join/' + data)
 
     await sleep(500)
