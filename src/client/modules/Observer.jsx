@@ -16,7 +16,7 @@ class Observer extends React.Component {
 
   state = {
     waiting: true,
-    playing: null,
+    player: null,
     turn: 0,
     winner: null,
     replaying: false,
@@ -26,6 +26,15 @@ class Observer extends React.Component {
   constructor (props) {
     super(props)
 
+    if (this.props.socket) {
+      this.socket = this.props.socket
+
+      const board = []
+      for (let c = 0; c < Observer.dimensionX; ++c) board.push(new Array(Observer.dimensionY).fill(0))
+
+      this.board = board
+    }
+
     this.joinGame = this.joinGame.bind(this)
     this.prepareReplay = this.prepareReplay.bind(this)
     this.advanceReplay = this.advanceReplay.bind(this)
@@ -33,9 +42,18 @@ class Observer extends React.Component {
   }
 
   componentDidMount () {
-    this.socket = new WebSocket(`ws://${this.props.server}/observe/${this.props.game}`)
+    if (this.socket) {
+      this.setState({
+        player: 1,
+        turn: 1
+      })
 
-    this.registerObserverListeners()
+      this.registerPlayerListeners()
+    } else {
+      this.socket = new WebSocket(`ws://${this.props.server}/observe/${this.props.game}`)
+
+      this.registerObserverListeners()
+    }
   }
 
   componentWillUnmount () {
@@ -46,7 +64,7 @@ class Observer extends React.Component {
     return (
       <div className='panel'>
         <div className='controls'>
-          {this.state.waiting
+          {this.state.waiting && this.state.player !== 1
             ? (
               <button className='join' onClick={this.joinGame}>Join Game</button>
               )
@@ -82,6 +100,8 @@ class Observer extends React.Component {
               </div>
               )}
         </div>
+
+        <span className='id'>{this.props.game}</span>
       </div>
     )
   }
@@ -99,7 +119,6 @@ class Observer extends React.Component {
     for (let c = 0; c < columns.length; ++c) columns[c].addEventListener('click', this.play.bind(this, c))
 
     this.setState({
-      waiting: false,
       player: 2
     })
   }
@@ -216,10 +235,24 @@ class Observer extends React.Component {
       const match = Observer.wsParseRegex.exec(e.data)
 
       switch (match.groups.command) {
+        case 'GAMESTART': {
+          const board = document.getElementsByClassName('board')[0]
+          board.classList.add('playable')
+          board.setAttribute('player', this.state.player)
+
+          const columns = board.getElementsByClassName('column')
+          for (let c = 0; c < columns.length; ++c) columns[c].addEventListener('click', this.play.bind(this, c))
+
+          this.setState({
+            waiting: false
+          })
+
+          break
+        }
         case 'OPPONENT': {
           const row = this.board[match.groups.data].findIndex((p) => !p)
 
-          this.board[match.groups.data][row] = match.groups.data
+          this.board[match.groups.data][row] = this.state.player % 2 + 1
 
           this.setState({
             turn: this.state.player

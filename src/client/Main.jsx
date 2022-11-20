@@ -10,6 +10,7 @@ class Main extends React.Component {
   state = {
     server: null,
     currentGame: null,
+    socket: null,
     games: [],
     inputs: {
       server: ''
@@ -21,6 +22,7 @@ class Main extends React.Component {
     super(props)
 
     this.testServer = this.testServer.bind(this)
+    this.createGame = this.createGame.bind(this)
   }
 
   componentWillUnmount () {
@@ -45,19 +47,23 @@ class Main extends React.Component {
               <>
                 <button className='return' onClick={this.setGame.bind(this, null)}>Return to game selection</button>
 
-                <Observer server={this.state.server} game={this.state.currentGame}/>
+                <Observer server={this.state.server} game={this.state.currentGame} socket={this.state.socket}/>
               </>
               )
             : (
-              <div className='games'>
-                {this.state.games.length
-                  ? this.state.games.map((g, i) => (
-                    <div className='gamecard' key={i} onClick={this.setGame.bind(this, g)}>
-                      <span>{g}</span>
-                    </div>
-                  ))
-                  : <span>No games found!</span>}
-              </div>
+              <>
+                <div className='games'>
+                  {this.state.games.length
+                    ? this.state.games.map((g, i) => (
+                      <div className='gamecard' key={i} onClick={this.setGame.bind(this, g, null)}>
+                        <span>{g}</span>
+                      </div>
+                    ))
+                    : <span>No games found!</span>}
+                </div>
+
+                <button className='create' onClick={this.createGame}>Create Game</button>
+              </>
               )
           : (
             <form className='connection' onSubmit={this.testServer}>
@@ -131,13 +137,26 @@ class Main extends React.Component {
       .catch(() => alert('Could not get active games!'))
   }
 
-  setGame (game) {
+  setGame (game, socket) {
     this.setState({
-      currentGame: game
+      currentGame: game,
+      socket
     })
 
     if (game) clearInterval(this.refreshInterval)
     else this.testServer()
+  }
+
+  createGame () {
+    const socket = new WebSocket(`ws://${this.state.server}/create`)
+
+    socket.addEventListener('message', (e) => {
+      const [, id] = e.data.split(':')
+
+      this.setGame(id, socket)
+    }, {
+      once: true
+    })
   }
 }
 
