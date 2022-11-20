@@ -15,4 +15,4 @@ For Python:
 ---
 - Open a Websocket with `/create` to receive an `ID:id` message.
 - Have the second agent join with `/join/:id`
-- Send moves by sending websocket messages of `play:col`
+- Send moves by sending websocket messages of `PLAY:col`

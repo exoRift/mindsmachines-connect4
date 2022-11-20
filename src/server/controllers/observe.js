@@ -1,4 +1,4 @@
-module.exports = {
+module.exports = { // TODO: Fix memory leak where event listeners persist after closing observer socket
   method: 'ws',
   route: '/observe/:id',
   action: function (ws, req, res) {
@@ -8,6 +8,12 @@ module.exports = {
       console.log(req.connection.remoteAddress, 'observing game', game.id)
 
       ws.send(`BOARD:${JSON.stringify(game.board)}`)
+
+      game.on('terminate', () => {
+        ws.send('TERMINATED')
+
+        ws.close()
+      })
 
       game.on('start', () => ws.send('GAMESTART'))
       if (game.players >= 2) ws.send('GAMESTART')

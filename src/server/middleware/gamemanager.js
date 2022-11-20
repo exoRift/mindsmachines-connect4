@@ -32,8 +32,6 @@ class Game extends EventEmitter {
       this.lastPlayed = player
 
       this.emit('move', player, col)
-
-      this.assessWinner(player, col)
     } else throw Error('invalid column')
   }
 
@@ -90,23 +88,39 @@ const manager = new Manager()
 
 function handleGame (ws, req, game, player) {
   ws.on('message', req.formatWSMsg(({ command, data }) => {
-    if (command.toUpperCase() === 'PLAY') {
-      const position = parseInt(data)
-      if (isNaN(position)) ws.send('ERROR:invalid position')
+    switch (command.toUpperCase()) {
+      case 'PLAY': {
+        const position = parseInt(data)
+        if (isNaN(position)) ws.send('ERROR:invalid position')
 
-      game.dropPiece(player, position)
-        .then(() => {
-          console.table({
-            game: game.id,
-            player,
-            position
+        game.dropPiece(player, position)
+          .then(() => {
+            console.table({
+              game: game.id,
+              player,
+              position
+            })
+
+            ws.send('ACK')
+
+            game.assessWinner(player, position)
           })
+          .catch((err) => ws.send(`ERROR:${err.message}`))
 
-          ws.send('ACK')
-        })
-        .catch((err) => ws.send(`ERROR:${err.message}`))
+        break
+      }
+      default: ws.send('ERROR:unknown command')
     }
   }))
+
+  ws.on('close', () => game.emit('terminate'))
+  game.on('terminate', () => {
+    ws.send('TERMINATED')
+
+    ws.close()
+
+    req.manager.destroyGame(game.id)
+  })
 
   game.on('start', () => ws.send('GAMESTART'))
 

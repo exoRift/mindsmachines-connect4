@@ -1,4 +1,5 @@
 .board {
+  position: relative;
   display: flex;
   padding: 2em;
   gap: 2em;

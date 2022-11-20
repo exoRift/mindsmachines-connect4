@@ -12,9 +12,11 @@ class Observer extends React.Component {
   board = []
   initBoard = []
   moves = []
+  queuedMove = null
 
   state = {
     waiting: true,
+    playing: null,
     turn: 0,
     winner: null,
     replaying: false,
@@ -24,6 +26,7 @@ class Observer extends React.Component {
   constructor (props) {
     super(props)
 
+    this.joinGame = this.joinGame.bind(this)
     this.prepareReplay = this.prepareReplay.bind(this)
     this.advanceReplay = this.advanceReplay.bind(this)
     this.rewindReplay = this.rewindReplay.bind(this)
@@ -32,6 +35,114 @@ class Observer extends React.Component {
   componentDidMount () {
     this.socket = new WebSocket(`ws://${this.props.server}/observe/${this.props.game}`)
 
+    this.registerObserverListeners()
+  }
+
+  componentWillUnmount () {
+    this.socket.close()
+  }
+
+  render () {
+    return (
+      <div className='panel'>
+        <div className='controls'>
+          {this.state.waiting
+            ? (
+              <button className='join' onClick={this.joinGame}>Join Game</button>
+              )
+            : null}
+          {this.state.replaying
+            ? (
+              <>
+                <div>
+                  <button className='prev' onClick={this.rewindReplay}>&#8617;</button>
+                  <button className='next' onClick={this.advanceReplay}>&#8618;</button>
+                </div>
+
+                <span className='currentmove'>Move: {this.state.replayIndex} / {this.moves.length}</span>
+              </>
+              )
+            : null}
+        </div>
+
+        <div className='viewport'>
+          <span className='turntag' player={this.state.waiting ? 0 : this.state.turn}>
+            {this.state.waiting ? 'Waiting for game to start...' : `Player ${this.state.turn}'s turn`}
+          </span>
+
+          <Board data={this.board}/>
+
+          {this.state.replaying || this.state.winner === null
+            ? null
+            : (
+              <div className='overlay'>
+                <span className='winner' player={this.state.winner}>{this.state.winner ? `Player ${this.state.winner} wins!` : 'Draw!'}</span>
+
+                <button className='replay' onClick={this.prepareReplay}>Replay Game</button>
+              </div>
+              )}
+        </div>
+      </div>
+    )
+  }
+
+  joinGame () {
+    this.socket.close()
+    this.socket = new WebSocket(`ws://${this.props.server}/join/${this.props.game}`)
+    this.registerPlayerListeners()
+
+    const board = document.getElementsByClassName('board')[0]
+    board.classList.add('playable')
+    board.setAttribute('player', 2)
+
+    const columns = board.getElementsByClassName('column')
+    for (let c = 0; c < columns.length; ++c) columns[c].addEventListener('click', this.play.bind(this, c))
+
+    this.setState({
+      waiting: false,
+      player: 2
+    })
+  }
+
+  play (col) {
+    this.socket.send('PLAY:' + col)
+
+    this.queuedMove = col
+  }
+
+  prepareReplay () {
+    this.board = this.initBoard
+
+    this.setState({
+      replaying: true
+    })
+  }
+
+  advanceReplay () {
+    if (this.state.replayIndex <= this.moves.length) {
+      const move = this.moves[this.state.replayIndex]
+
+      this.board[move.col][move.row] = move.player
+
+      this.setState({
+        replayIndex: this.state.replayIndex + 1
+      })
+    }
+  }
+
+  rewindReplay () {
+    if (this.state.replayIndex) {
+      const move = this.moves[this.state.replayIndex - 1]
+
+      this.board[move.col][move.row] = 0
+
+      this.setState({
+        replayIndex: this.state.replayIndex - 1
+      })
+    }
+  }
+
+  registerObserverListeners () {
     this.socket.addEventListener('message', (e) => {
       const match = Observer.wsParseRegex.exec(e.data)
 
@@ -89,83 +200,84 @@ class Observer extends React.Component {
           })
 
           break
+        case 'TERMINATED':
+          this.setState({
+            winner: 0
+          })
 
+          break
         default: break
       }
     })
   }
 
-  componentWillUnmount () {
-    this.socket.close()
-  }
+  registerPlayerListeners () {
+    this.socket.addEventListener('message', (e) => {
+      const match = Observer.wsParseRegex.exec(e.data)
 
-  render () {
-    return (
-      <div className='panel'>
-        {this.state.replaying
-          ? (
-            <div className='controls'>
-              <span className='currentmove'>Move: {this.state.replayIndex} / {this.moves.length}</span>
+      switch (match.groups.command) {
+        case 'OPPONENT': {
+          const row = this.board[match.groups.data].findIndex((p) => !p)
 
-              <div>
-                <button className='prev' onClick={this.rewindReplay}>&#8617;</button>
-                <button className='next' onClick={this.advanceReplay}>&#8618;</button>
-              </div>
-            </div>
-            )
-          : null}
+          this.board[match.groups.data][row] = match.groups.data
 
-        <div className='viewport'>
-          <span className='turntag' player={this.state.waiting ? 0 : this.state.turn}>
-            {this.state.waiting ? 'Waiting for game to start...' : `Player ${this.state.turn}'s turn`}
-          </span>
+          this.setState({
+            turn: this.state.player
+          })
 
-          <Board data={this.board}/>
+          this.moves.push({
+            col: match.groups.data,
+            row,
+            player: this.state.player % 2 + 1
+          })
 
-          {this.state.replaying || this.state.winner === null
-            ? null
-            : (
-              <div className='overlay'>
-                <span className='winner' player={this.state.winner}>{this.state.winner ? `Player ${this.state.winner} wins!` : 'Draw!'}</span>
+          break
+        }
+        case 'ACK': { // Successful Move
+          if (this.queuedMove !== null) {
+            const row = this.board[this.queuedMove].findIndex((p) => !p)
+            this.board[this.queuedMove][row] = this.state.player
 
-                <button className='replay' onClick={this.prepareReplay}>Replay Game</button>
-              </div>
-              )}
-        </div>
-      </div>
-    )
-  }
+            this.moves.push({
+              col: this.queuedMove,
+              row,
+              player: this.state.player
+            })
 
-  prepareReplay () {
-    this.board = this.initBoard
+            this.setState({
+              turn: this.state.player % 2 + 1
+            })
+          }
 
-    this.setState({
-      replaying: true
+          break
+        }
+        case 'WIN':
+          this.setState({
+            winner: this.state.player
+          })
+
+          break
+        case 'LOSS':
+          this.setState({
+            winner: this.state.player % 2 + 1
+          })
+
+          break
+        case 'DRAW':
+          this.setState({
+            winner: 0
+          })
+
+          break
+        case 'TERMINATED':
+          this.setState({
+            winner: 0
+          })
+
+          break
+        default: break
+      }
     })
-  }
-
-  advanceReplay () {
-    if (this.state.replayIndex <= this.moves.length) {
-      const move = this.moves[this.state.replayIndex]
-
-      this.board[move.col][move.row] = move.player
-
-      this.setState({
-        replayIndex: this.state.replayIndex + 1
-      })
-    }
-  }
-
-  rewindReplay () {
-    if (this.state.replayIndex) {
-      const move = this.moves[this.state.replayIndex - 1]
-
-      this.board[move.col][move.row] = 0
-
-      this.setState({
-        replayIndex: this.state.replayIndex - 1
-      })
-    }
   }
 }
 

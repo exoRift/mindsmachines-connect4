@@ -4,7 +4,13 @@
 
 .controls {
   display: flex;
+  flex-direction: row-reverse;
   justify-content: space-between;
+}
+
+.controls button.join::before {
+  content: '\25b6';
+  margin-right: 0.5em;
 }
 
 .turntag {
@@ -22,6 +28,25 @@
 }
 .turntag[player='2']::before {
   color: var(--yellow);
+}
+
+.board.playable .column {
+  cursor: pointer;
+}
+.board.playable .column:hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 4em;
+  height: 4em;
+  border-radius: 50%;
+  transform: translateY(-100%);
+}
+.board.playable[player='1'] .column:hover::before {
+  background: var(--red);
+}
+.board.playable[player='2'] .column:hover::before {
+  background: var(--yellow);
 }
 
 .overlay {

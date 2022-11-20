@@ -1,4 +1,4 @@
-const parseRegex = /^(?<command>.+):(?<data>.+)$/
+const parseRegex = /^(?<command>.+?)(?::(?<data>.+?))?(?:\/(?<extra>.+))?$/
 
 module.exports = function (req, res, next) {
   req.formatWSMsg = function (cb) {
