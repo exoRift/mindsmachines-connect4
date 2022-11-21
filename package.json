@@ -5,6 +5,7 @@
   "scripts": {
     "server-dev": "nodemon src/server 5000",
     "server": "node src/server 5000",
+    "client": "([ -d build/ ] || npm run build-client) && npm start",
     "client-dev": "vite dev",
     "build-client": "vite build",
     "start": "vite preview"
