@@ -12,3 +12,14 @@
 body {
   margin: 0;
 }
+
+button {
+  transition: 0.4s;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+button:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}

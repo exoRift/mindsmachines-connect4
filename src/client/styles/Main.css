@@ -117,17 +117,25 @@ button.return {
   background: var(--red);
   font-size: 1em;
   font-weight: 600;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-}
-button.return:hover {
-  transform: scale(1.03);
-  filter: brightness(1.2);
 }
 button.return::before {
   content: '\21a9';
   margin-right: 0.5em;
+}
+
+button.create {
+  transition: 0.4s;
+  display: flex;
+  padding: 0.4em;
+  background: #56f76b;
+  line-height: 1.4;
+}
+button.create::before {
+  content: '+';
+  margin-right: 0.2em;
+  font-size: 2em;
+  font-weight: 800;
+  line-height: 0.6;
 }
 
 @keyframes backgroundanim {

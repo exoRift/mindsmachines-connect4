@@ -73,8 +73,8 @@ class Observer extends React.Component {
             ? (
               <>
                 <div>
-                  <button className='prev' onClick={this.rewindReplay}>&#8617;</button>
-                  <button className='next' onClick={this.advanceReplay}>&#8618;</button>
+                  <button className='move prev' onClick={this.rewindReplay}>&#8617;</button>
+                  <button className='move next' onClick={this.advanceReplay}>&#8618;</button>
                 </div>
 
                 <span className='currentmove'>Move: {this.state.replayIndex} / {this.moves.length}</span>

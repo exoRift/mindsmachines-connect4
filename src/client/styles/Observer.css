@@ -13,6 +13,17 @@
   margin-right: 0.5em;
 }
 
+.controls button.move {
+  transition: 0.2s;
+  font-size: 1.8em;
+}
+.controls button.move.prev {
+  border-radius: 10px 0 0 10px;
+}
+.controls button.move.next {
+  border-radius: 0 10px 10px 0;
+}
+
 .turntag {
   display: block;
   font-size: 1.2em;
@@ -85,7 +96,7 @@
 .id {
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: 1%;
 }
 .id::before {
   content: 'ID:';
