@@ -132,7 +132,10 @@ class Observer extends React.Component {
   prepareReplay () {
     this.board = this.initBoard
 
+    const moves = this.board.reduce((a, c) => a + c.reduce((a, r) => r ? a + 1 : a, 0), 0)
+
     this.setState({
+      turn: moves % 2 + 1,
       replaying: true
     })
   }
@@ -144,6 +147,7 @@ class Observer extends React.Component {
       this.board[move.col][move.row] = move.player
 
       this.setState({
+        turn: this.state.turn % 2 + 1,
         replayIndex: this.state.replayIndex + 1
       })
     }
@@ -156,6 +160,7 @@ class Observer extends React.Component {
       this.board[move.col][move.row] = 0
 
       this.setState({
+        turn: this.state.turn % 2 + 1,
         replayIndex: this.state.replayIndex - 1
       })
     }
