@@ -1,3 +1,4 @@
+const os = require('os')
 const express = require('express')
 const ws = require('express-ws')
 const cors = require('cors')
@@ -31,5 +32,5 @@ const server = app.listen(PORT, () => {
     port
   } = server.address()
 
-  console.info('Server online listening at https://localhost:%s', port)
+  console.info('Server online listening at http://%s:%s', os.networkInterfaces().wifi0.find((i) => i.family === 'IPv4').address, port)
 })
