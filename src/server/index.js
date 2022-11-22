@@ -32,5 +32,8 @@ const server = app.listen(PORT, () => {
     port
   } = server.address()
 
-  console.info('Server online listening at http://%s:%s', os.networkInterfaces().wifi0.find((i) => i.family === 'IPv4').address, port)
+  const interfaces = os.networkInterfaces()
+  const network = interfaces.eth1 || interfaces.wifi0
+
+  console.info('Server online listening at http://%s:%s', network.find((i) => i.family === 'IPv4').address, port)
 })
