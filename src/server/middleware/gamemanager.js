@@ -10,10 +10,10 @@ class Game extends EventEmitter {
   lastPlayed = 2
   moves = 0
 
-  constructor () {
+  constructor (id) {
     super()
 
-    this.id = String(Date.now())
+    this.id = id
 
     this.board = []
     for (let x = 0; x < Game.dimensionX; ++x) this.board.push([])
@@ -68,7 +68,7 @@ class Manager {
   games = new Map()
 
   createGame () {
-    const game = new Game()
+    const game = new Game(Math.round(process.uptime() * 1000).toString(16).toUpperCase())
 
     this.games.set(game.id, game)
 
@@ -76,7 +76,7 @@ class Manager {
   }
 
   getGame (id) {
-    return this.games.get(id)
+    return this.games.get(id.toUpperCase())
   }
 
   destroyGame (id) {

@@ -21,22 +21,21 @@
   },
   "dependencies": {
     "@polka/send-type": "^0.5.2",
+    "@vitejs/plugin-react": "^2.2.0",
+    "autoprefixer": "^10.4.13",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-ws": "^5.0.2",
     "mass-require": "^1.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "vite": "^3.2.4"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^2.2.0",
-    "autoprefixer": "^10.4.13",
-    "dotenv-cli": "^6.0.0",
     "eslint": "^8.27.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-config-standard": "^17.0.0",
-    "nodemon": "^2.0.20",
-    "vite": "^3.2.3"
+    "nodemon": "^2.0.20"
   },
   "browserslist": {
     "production": [
