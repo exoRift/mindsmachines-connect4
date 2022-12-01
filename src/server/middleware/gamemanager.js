@@ -45,8 +45,15 @@ class Game extends EventEmitter {
       (this.countChain(player, lastMove, row, 1, -1) + this.countChain(player, lastMove, row, -1, 1)) - 1 >= Game.combo // Negative slope diagonal
     )
 
-    if (won) this.emit('win', player)
-    else if (this.moves >= Game.maxMoves) this.emit('draw')
+    if (won) {
+      this.emit('win', player)
+
+      console.log(player, 'won game', this.id)
+    } else if (this.moves >= Game.maxMoves) {
+      this.emit('draw')
+
+      console.log(this.id, 'resulted in a draw')
+    }
   }
 
   countChain (player, col, row, colIncrement, rowIncrement) {
@@ -113,11 +120,15 @@ function handleGame (ws, req, game, player) {
     }
   }))
 
-  ws.on('close', () => game.emit('terminate'))
+  ws.on('close', (code) => {
+    if (code !== 1000) console.warn(req.connection.remoteAddress, 'disconnected from game', game.id)
+
+    game.emit('terminate')
+  })
   game.on('terminate', () => {
     ws.send('TERMINATED')
 
-    ws.close()
+    ws.close(1000)
 
     req.manager.destroyGame(game.id)
   })
@@ -131,7 +142,7 @@ function handleGame (ws, req, game, player) {
   game.on('win', (winner) => {
     ws.send(winner === player ? 'WIN' : 'LOSS')
 
-    ws.close()
+    ws.close(1000)
 
     req.manager.destroyGame(game.id)
   })
@@ -139,7 +150,7 @@ function handleGame (ws, req, game, player) {
   game.on('draw', (winner) => {
     ws.send('DRAW')
 
-    ws.close()
+    ws.close(1000)
 
     req.manager.destroyGame(game.id)
   })
