@@ -130,6 +130,9 @@ class Observer extends React.Component {
   }
 
   prepareReplay () {
+    const board = document.getElementsByClassName('board')[0]
+    board.classList.remove('playable')
+
     this.board = this.initBoard
 
     const moves = this.board.reduce((a, c) => a + c.reduce((a, r) => r ? a + 1 : a, 0), 0)

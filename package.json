@@ -8,7 +8,8 @@
     "client": "([ -d build/ ] || npm run build-client) && npm start",
     "client-dev": "vite dev",
     "build-client": "vite build",
-    "start": "vite preview"
+    "start": "vite preview",
+    "test": "node testgame.js"
   },
   "repository": {
     "type": "git",
