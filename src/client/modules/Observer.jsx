@@ -36,6 +36,7 @@ class Observer extends React.Component {
     }
 
     this.joinGame = this.joinGame.bind(this)
+    this.setWinner = this.setWinner.bind(this)
     this.prepareReplay = this.prepareReplay.bind(this)
     this.advanceReplay = this.advanceReplay.bind(this)
     this.rewindReplay = this.rewindReplay.bind(this)
@@ -120,6 +121,15 @@ class Observer extends React.Component {
 
     this.setState({
       player: 2
+    })
+  }
+
+  setWinner (winner) {
+    const board = document.getElementsByClassName('board')[0]
+    board.classList.remove('playable')
+
+    this.setState({
+      winner
     })
   }
 
@@ -216,21 +226,15 @@ class Observer extends React.Component {
           break
         }
         case 'WIN':
-          this.setState({
-            winner: match.groups.data
-          })
+          this.setWinner(match.groups.data)
 
           break
         case 'DRAW':
-          this.setState({
-            winner: 0
-          })
+          this.setWinner(0)
 
           break
         case 'TERMINATED':
-          this.setState({
-            winner: 0
-          })
+          this.setWinner(0)
 
           break
         default: break
@@ -293,27 +297,19 @@ class Observer extends React.Component {
           break
         }
         case 'WIN':
-          this.setState({
-            winner: this.state.player
-          })
+          this.setWinner(this.state.player)
 
           break
         case 'LOSS':
-          this.setState({
-            winner: this.state.player % 2 + 1
-          })
+          this.setWinner(this.state.player % 2 + 1)
 
           break
         case 'DRAW':
-          this.setState({
-            winner: 0
-          })
+          this.setWinner(0)
 
           break
         case 'TERMINATED':
-          this.setState({
-            winner: 0
-          })
+          this.setWinner(0)
 
           break
         default: break

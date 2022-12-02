@@ -48,7 +48,7 @@ class Game extends EventEmitter {
     if (won) {
       this.emit('win', player)
 
-      console.log(player, 'won game', this.id)
+      console.log('player', player, 'won game', this.id)
     } else if (this.moves >= Game.maxMoves) {
       this.emit('draw')
 
