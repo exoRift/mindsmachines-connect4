@@ -13,9 +13,9 @@ For Python:
 
 ### Getting started
 ---
-- Open a Websocket with `/create` to receive an `ID:id` message.
-- Have the second agent join with `/join/:id`
-- Send moves by sending websocket messages of `PLAY:col`
+- Open a Websocket with `/create` to receive an `ID:{ID}` message.
+- Have the second agent join with `/join/{ID}`
+- Send moves by sending websocket messages of `PLAY:{COL}`
 
 ### Running the server
 ---
@@ -43,7 +43,7 @@ async def gameloop (socket, created):
 
     match message[0]:
       case 'OPPONENT':
-        col = calculate_move()
+        col = calculate_move(message[1])
 
         socket.send(f'PLAY:{col}')
       case ['WIN', 'LOSS', 'DRAW', 'TERMINATED']:
