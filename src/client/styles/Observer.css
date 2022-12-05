@@ -80,7 +80,8 @@
     growin 1s linear 1 normal forwards,
     shake 1s linear infinite normal;
 }
-.overlay .winner[player='0'] {
+.overlay .winner[player='0'],
+.overlay .winner[player='-1'] {
   animation: growin 1s linear 1 normal forwards;
 }
 

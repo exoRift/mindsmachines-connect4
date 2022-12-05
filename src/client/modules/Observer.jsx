@@ -96,7 +96,11 @@ class Observer extends React.Component {
             ? null
             : (
               <div className='overlay'>
-                <span className='winner' player={this.state.winner}>{this.state.winner ? `Player ${this.state.winner} wins!` : 'Draw!'}</span>
+                <span className='winner' player={this.state.winner}>{this.state.winner > 0
+                  ? `Player ${this.state.winner} wins!`
+                  : this.state.winner === -1
+                    ? 'Forfeit...'
+                    : 'Draw!'}</span>
 
                 <button className='replay' onClick={this.prepareReplay}>Replay Game</button>
               </div>
@@ -235,7 +239,7 @@ class Observer extends React.Component {
 
           break
         case 'TERMINATED':
-          this.setWinner(0)
+          this.setWinner(-1)
 
           break
         default: break
@@ -310,7 +314,7 @@ class Observer extends React.Component {
 
           break
         case 'TERMINATED':
-          this.setWinner(0)
+          this.setWinner(-1)
 
           break
         default: break
