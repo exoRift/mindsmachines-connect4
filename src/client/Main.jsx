@@ -13,7 +13,7 @@ class Main extends React.Component {
     socket: null,
     games: [],
     inputs: {
-      server: ''
+      server: `${window.location.hostname}:5000`
     },
     inputLocked: false
   }

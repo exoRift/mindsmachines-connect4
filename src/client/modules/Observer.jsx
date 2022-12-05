@@ -33,6 +33,7 @@ class Observer extends React.Component {
       for (let c = 0; c < Observer.dimensionX; ++c) board.push(new Array(Observer.dimensionY).fill(0))
 
       this.board = board
+      this.initBoard = this.board.map((c) => c.map((r) => r)) // Clone Board
     }
 
     this.joinGame = this.joinGame.bind(this)
