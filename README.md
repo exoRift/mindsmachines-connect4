@@ -42,11 +42,11 @@ async def gameloop (socket, created):
     message = (await socket.recv()).split(':')
 
     match message[0]:
-      case 'OPPONENT':
-        col = calculate_move(message[1])
+      case 'GAMESTART' | 'OPPONENT':
+        col = col = calculate_move(message[1])
 
-        socket.send(f'PLAY:{col}')
-      case ['WIN', 'LOSS', 'DRAW', 'TERMINATED']:
+        await socket.send(f'PLAY:{col}')
+      case 'WIN' | 'LOSS' | 'DRAW' | 'TERMINATED':
         print(message[0])
 
         active = False
