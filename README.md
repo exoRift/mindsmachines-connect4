@@ -66,7 +66,7 @@ if __name__ == '__main__':
 
   match protocol:
     case 'c':
-      asyncio.run(create_game())
+      asyncio.run(create_game(server))
     case 'j':
       id = input('Game ID: ').strip()
 
