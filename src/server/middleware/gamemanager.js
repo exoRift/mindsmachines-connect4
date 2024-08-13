@@ -75,8 +75,15 @@ class Manager {
   games = new Map()
 
   createGame () {
-    const game = new Game(Math.round(process.uptime() * 1000).toString(16).toUpperCase())
+    let id
+    do {
+      const base = Math.round((process.uptime() * 1000) % 0xFFFF).toString(16).toUpperCase()
+      const pad = '0'.repeat(4 - base.length)
 
+      id = pad + base
+    } while (this.games.has(id))
+
+    const game = new Game(id)
     this.games.set(game.id, game)
 
     return game
