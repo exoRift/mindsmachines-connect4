@@ -46,7 +46,7 @@ async def gameloop (socket, created):
         col = calculate_move(None)
 
         await socket.send(f'PLAY:{col}')
-      case 'GAMESTART' | 'OPPONENT':
+      case 'OPPONENT':
         col = calculate_move(message[1])
 
         await socket.send(f'PLAY:{col}')
