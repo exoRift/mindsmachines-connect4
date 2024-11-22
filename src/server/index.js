@@ -1,3 +1,6 @@
+const https = require('https')
+const fs = require('fs')
+const path = require('path')
 const os = require('os')
 const express = require('express')
 const ws = require('express-ws')
@@ -27,12 +30,18 @@ for (const controller of controllers) {
 }
 app.all('/', (req, res) => res.send(200, 'connect4'))
 
-const server = app.listen(PORT, () => {
+const ssl = {
+  key: fs.readFileSync(path.join(__dirname, 'key.pem')),
+  cert: fs.readFileSync(path.join(__dirname, 'cert.pem'))
+}
+const server = https.createServer(ssl, app)
+
+server.listen(PORT, () => {
   const {
     port
   } = server.address()
 
   const interfaces = Object.values(os.networkInterfaces()).flat()
 
-  console.info('Server online listening at http://%s:%s', interfaces.find((i) => !i.internal && i.family === 'IPv4').address, port)
+  console.info('Server online listening at https://%s:%s', interfaces.find((i) => !i.internal && i.family === 'IPv4').address, port)
 })

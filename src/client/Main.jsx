@@ -100,7 +100,7 @@ class Main extends React.Component {
       inputLocked: true
     })
 
-    return fetch('http://' + this.state.inputs.server, {
+    return fetch('https://' + this.state.inputs.server, {
       method: 'GET'
     })
       .then((res) => {
@@ -122,7 +122,7 @@ class Main extends React.Component {
   }
 
   refreshGames (server) {
-    return fetch(`http://${server}/list`, {
+    return fetch(`https://${server}/list`, {
       method: 'GET'
     })
       .then((res) => {
