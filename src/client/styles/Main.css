@@ -7,7 +7,6 @@
   flex-direction: column;
   align-items: center;
   gap: 5%;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .page.active {
