@@ -20,5 +20,6 @@ export default defineConfig({
         autoprefixer()
       ]
     }
-  }
+  },
+  base: process.env.VITE_BASE
 })
