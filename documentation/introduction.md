@@ -59,6 +59,7 @@ The website will prompt you for the server IP. Make sure you use the numeric IP 
 > click on the settings button next to the URL and go to "site settings"
 >
 > <img src='security_step1.png' alt='Security Step 1' width='500'>
+>
 > then scroll down to "insecure content" and switch it to "Allow"
 >
 > <img src='security_step2.png' alt='Security Step 2' width='500'>
