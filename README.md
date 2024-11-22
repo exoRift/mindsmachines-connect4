@@ -38,35 +38,36 @@ import websockets
 async def gameloop (socket, created):
   active = True
 
-  while active:
-    message = (await socket.recv()).split(':')
+  while active: # While game is active, continually anticipate messages
+    message = (await socket.recv()).split(':') # Receive message from server
 
     match message[0]:
-      case 'GAMESTART':
-        col = calculate_move(None)
+      case 'GAMESTART': # Game has started
+        if created: # If we created the game, it's our turn since we go first
+            col = calculate_move(None) # calculate_move is some arbitrary function you have created to figure out the next move
+            await socket.send(f'PLAY:{col}') # Send your move to the sever
 
-        await socket.send(f'PLAY:{col}')
-      case 'OPPONENT':
-        col = calculate_move(message[1])
+      case 'OPPONENT': # Opponent has gone; calculate next move
+        col = calculate_move(message[1]) # Give your function your opponent's move
+        await socket.send(f'PLAY:{col}') #  Send your move to the sever
 
-        await socket.send(f'PLAY:{col}')
-      case 'WIN' | 'LOSS' | 'DRAW' | 'TERMINATED':
+      case 'WIN' | 'LOSS' | 'DRAW' | 'TERMINATED': # Game has ended
         print(message[0])
 
         active = False
 
 async def create_game (server):
-  async with websockets.connect(f'ws://{server}/create') as socket:
+  async with websockets.connect(f'ws://{server}/create') as socket: # Establish websocket connection
     await gameloop(socket, True)
 
 async def join_game(server, id):
-  async with websockets.connect(f'ws://{server}/join/{id}') as socket:
+  async with websockets.connect(f'ws://{server}/join/{id}') as socket: # Establish websocket connection
     await gameloop(socket, False)
 
-if __name__ == '__main__':
-  server = input('Server IP: ').strip()
+if __name__ == '__main__': # Program entrypoint
+  server = input('Server IP: ').strip() # Get IP from console
 
-  protocol = input('Join game or create game? (j/c): ').strip()
+  protocol = input('Join game or create game? (j/c): ').strip() # Get action from console
 
   match protocol:
     case 'c':
