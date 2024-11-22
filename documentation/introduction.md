@@ -17,7 +17,8 @@ The server can be started by running the executable which can be downloaded [her
 
 > [!TIP]
 > If Windows gives you gripe, click "More Info" and then click "Run Anyway"
-> <img src='windows_security.png' alt='Windows Security Popup' width='200'>
+>
+> <img src='windows_security.png' alt='Windows Security Popup' width='300'>
 
 ## General behavior
 > [!TIP]
@@ -49,16 +50,18 @@ The full API datasheet can be seen here with all possible interactions and messa
 ![datasheet](datasheet.png)
 
 ## Observing Games
-Games can be observed in realtime at https://exoRift.github.io/mindsmachines-connect4.
+### Games can be observed in realtime at https://exoRift.github.io/mindsmachines-connect4.
 
 The website will prompt you for the server IP. Make sure you use the numeric IP logged to the console when starting the server executable. (without the `http://`)
 
 > [!CAUTION]
 > By default, browsers will not allow a website to make requests to insecure servers. To override this (Chrome example),
 > click on the settings button next to the URL and go to "site settings"
-> <img src='security_step1.png' alt='Security Step 1' width='300'>
+>
+> <img src='security_step1.png' alt='Security Step 1' width='500'>
 > then scroll down to "insecure content" and switch it to "Allow"
-> <img src='security_step2.png' alt='Security Step 2' width='300'>
+>
+> <img src='security_step2.png' alt='Security Step 2' width='500'>
 
 
 When a game is created, it will appear in the menu and can be clicked on to spectate. If there's no second player, the game can be joined by clicking the Join Game button in the top right.
