@@ -13,6 +13,10 @@ Websocket URLs generally follow this structure: `ws://123.456.789.10:1234` where
 ## Running the server
 The server can be started by running the executable provided to you. By default, it will use port 5000. If port 5000 is taken, use the command line to run the file and you can supply a port number afterward to switch the port.
 
+> [!TIP]
+> If Windows gives you gripe, click "More Info" and then click "Run Anyway"
+> ![windows security](windows_security.png)
+
 ## General behavior
 > [!TIP]
 > For the sake of convencience, imagine all subsequent occurences of "IP" are the server's IP.
@@ -46,6 +50,14 @@ The full API datasheet can be seen here with all possible interactions and messa
 Games can be observed in realtime at https://exoRift.github.io/mindsmachines-connect4.
 
 The website will prompt you for the server IP. Make sure you use the numeric IP logged to the console when starting the server executable. (without the `http://`)
+
+> [!CAUTION]
+> By default, browsers will not allow a website to make requests to insecure servers. To override this (Chrome example),
+> click on the settings button next to the URL and go to "site settings"
+> ![step 1](security_step1.png)
+> then scroll down to "insecure content" and switch it to "Allow"
+> ![step 2](security_step2.png)
+
 
 When a game is created, it will appear in the menu and can be clicked on to spectate. If there's no second player, the game can be joined by clicking the Join Game button in the top right.
 
