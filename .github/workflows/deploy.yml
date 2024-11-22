@@ -1,0 +1,73 @@
+name: Publish Update
+
+on:
+  push:
+      branches:
+        - master
+
+jobs:
+  observer:
+    name: Update Observer
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [20]
+
+    runs-on: ${{ matrix.os }}
+
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    concurrency:
+      group: pages
+      cancel-in-progress: true
+
+    steps:
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Install Dependencies
+        run: npm i
+      - name: Build Resources
+        run: npm run build-client
+      - name: Upload Static Artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: 'client_build/'
+      - name: Deploy Site to Github Pages
+        id: deploy
+        uses: actions/deploy-pages@v2
+  server:
+    name: Build Server
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [20]
+
+    runs-on: ${{ matrix.os }}
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install Dependencies
+        run: npm i
+      - name: Build Resources
+        run: npm run build-server
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'Server Builds'
+          path: 'server_build'
