@@ -45,7 +45,7 @@ The full API datasheet can be seen here with all possible interactions and messa
 ## Observing Games
 Games can be observed in realtime at https://exoRift.github.io/mindsmachines-connect4.
 
-The website will prompt you for the server IP. Make sure you use the numeric IP logged to the console when starting the server executable. (without the `https://`)
+The website will prompt you for the server IP. Make sure you use the numeric IP logged to the console when starting the server executable. (without the `http://`)
 
 When a game is created, it will appear in the menu and can be clicked on to spectate. If there's no second player, the game can be joined by clicking the Join Game button in the top right.
 
