@@ -17,7 +17,7 @@ The server can be started by running the executable which can be downloaded [her
 
 > [!TIP]
 > If Windows gives you gripe, click "More Info" and then click "Run Anyway"
-> ![windows security](windows_security.png)
+> <img src='windows_security.png' alt='Windows Security Popup' width='200'>
 
 ## General behavior
 > [!TIP]
@@ -56,9 +56,9 @@ The website will prompt you for the server IP. Make sure you use the numeric IP 
 > [!CAUTION]
 > By default, browsers will not allow a website to make requests to insecure servers. To override this (Chrome example),
 > click on the settings button next to the URL and go to "site settings"
-> ![step 1](security_step1.png)
+> <img src='security_step1.png' alt='Security Step 1' width='300'>
 > then scroll down to "insecure content" and switch it to "Allow"
-> ![step 2](security_step2.png)
+> <img src='security_step2.png' alt='Security Step 2' width='300'>
 
 
 When a game is created, it will appear in the menu and can be clicked on to spectate. If there's no second player, the game can be joined by clicking the Join Game button in the top right.
