@@ -13,7 +13,7 @@ class Main extends React.Component {
     socket: null,
     games: [],
     inputs: {
-      server: `${window.location.hostname}:5000`
+      server: window.location.hostname.match(/[a-zA-Z]/) ? '' : `${window.location.hostname}:5000`
     },
     inputLocked: false
   }

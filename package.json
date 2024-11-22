@@ -8,6 +8,7 @@
     "client": "([ -d build/ ] || npm run build-client) && npm start",
     "client-dev": "vite dev",
     "build-client": "vite build",
+    "build-server": "pkg src/server/index.js -o server_build/connect4_server -c pkgconfig.json",
     "start": "vite preview --host",
     "test": "node testgame.js"
   },
@@ -33,6 +34,7 @@
     "vite": "^3.2.4"
   },
   "devDependencies": {
+    "@yao-pkg/pkg": "^6.1.1",
     "eslint": "^8.27.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-config-standard": "^17.0.0",
