@@ -131,7 +131,7 @@ const WebSocket = require('ws')
 
 const player = new WebSocket('ws://IP/create')
 
-player.addEventListener((e) => {
+player.addEventListener('message', (e) => {
   const [command, value] = e.data.split(':')
 
   /// ...rest of code
