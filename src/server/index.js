@@ -31,8 +31,10 @@ const server = app.listen(PORT, () => {
   const {
     port
   } = server.address()
-
   const interfaces = Object.values(os.networkInterfaces()).flat()
+  const ip = `${interfaces.find((i) => !i.internal && i.family === 'IPv4').address}:${port}`
 
-  console.info('Server online listening at http://%s:%s', interfaces.find((i) => !i.internal && i.family === 'IPv4').address, port)
+  console.info('Server online listening at %s', ip)
+
+  app.get('/ip', (req, res) => res.send(200, ip))
 })
