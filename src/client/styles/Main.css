@@ -71,6 +71,12 @@ button.connect {
   font-size: 3em;
 }
 
+button.quickconnect {
+  background: lightgray;
+  margin-top: auto;
+  font-size: 2.6em;
+}
+
 .games {
   position: relative;
   display: flex;

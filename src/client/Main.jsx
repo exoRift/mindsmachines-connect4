@@ -75,7 +75,9 @@ class Main extends React.Component {
                 disabled={this.state.inputLocked}
               />
 
-              <button className='connect' disabled={this.state.inputLocked}>Connect!</button>
+              <button type='submit' className='connect' disabled={this.state.inputLocked}>Connect!</button>
+
+              <button type='submit' className='quickconnect' onClick={() => this.setInput('server')('localhost:5000')}>Quick Connect</button>
             </form>
             )}
       </div>
@@ -87,7 +89,7 @@ class Main extends React.Component {
       this.setState({
         inputs: {
           ...this.state.inputs,
-          [field]: e.target.value
+          [field]: typeof e === 'string' ? e : e.target.value
         }
       })
     }
