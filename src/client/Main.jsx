@@ -9,6 +9,7 @@ class Main extends React.Component {
 
   state = {
     server: null,
+    ip: null,
     currentGame: null,
     socket: null,
     games: [],
@@ -75,9 +76,20 @@ class Main extends React.Component {
                 disabled={this.state.inputLocked}
               />
 
-              <button className='connect' disabled={this.state.inputLocked}>Connect!</button>
+              <button type='submit' className='connect' disabled={this.state.inputLocked}>Connect!</button>
+
+              <button type='submit' className='quickconnect' onClick={() => this.setInput('server')('localhost:5000')}>Quick Connect</button>
             </form>
             )}
+
+        {this.state.server
+          ? (
+              <p className='ip'>
+                <span>Server IP: </span>
+                <span>{this.state.ip ?? 'Loading...'}</span>
+              </p>
+            )
+          : null}
       </div>
     )
   }
@@ -87,7 +99,7 @@ class Main extends React.Component {
       this.setState({
         inputs: {
           ...this.state.inputs,
-          [field]: e.target.value
+          [field]: typeof e === 'string' ? e : e.target.value
         }
       })
     }
@@ -115,6 +127,16 @@ class Main extends React.Component {
 
           this.refreshGames(this.state.inputs.server)
           this.refreshInterval = setInterval(() => this.refreshGames(this.state.inputs.server), Main.refreshRate)
+
+          fetch(`http://${this.state.inputs.server}/ip`, {
+            method: 'GET'
+          })
+            .then((res) => {
+              if (!res.ok) throw Error()
+              else return res.text()
+            })
+            .then((ip) => this.setState({ ip }))
+            .catch(() => this.setState({ ip: 'UNKNOWN' }))
         } else throw Error()
       })
       .catch(() => alert('Could not connect to server!'))

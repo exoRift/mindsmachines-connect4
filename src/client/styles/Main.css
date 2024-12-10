@@ -71,6 +71,12 @@ button.connect {
   font-size: 3em;
 }
 
+button.quickconnect {
+  background: lightgray;
+  margin-top: auto;
+  font-size: 2.6em;
+}
+
 .games {
   position: relative;
   display: flex;
@@ -134,6 +140,12 @@ button.create::before {
   font-size: 2em;
   font-weight: 800;
   line-height: 0.6;
+}
+
+.ip {
+  position: fixed;
+  right: 1em;
+  bottom: 0;
 }
 
 @keyframes backgroundanim {

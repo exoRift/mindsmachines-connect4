@@ -1,7 +1,8 @@
 # Minds and Machines
 ## Connect 4 AI Program
 
-[**Download**](https://github.com/exoRift/mindsmachines-connect4/releases/tag/v1.0.0)
+[**Download**](https://github.com/exoRift/mindsmachines-connect4/releases/tag/v1.1.0)
+[**Observer**](https://exoRift.github.io/mindsmachines-connect4)
 
 Welcome to the Minds and Machines Connect 4 moderator program.
 
@@ -13,7 +14,7 @@ Websocket is a web protocol (similar to HTTP) that allows a client to open a two
 Websocket URLs generally follow this structure: `ws://123.456.789.10:1234` where the first set of numbers is the IP address and the second number is the port.
 
 ## Running the server
-The server can be started by running the executable which can be downloaded [here](https://github.com/exoRift/mindsmachines-connect4/releases/tag/v1.0.0). By default, it will use port 5000. If port 5000 is taken, use the command line to run the file and you can supply a port number afterward to switch the port.
+The server can be started by running the executable which can be downloaded [here](https://github.com/exoRift/mindsmachines-connect4/releases/tag/v1.1.0). By default, it will use port 5000. If port 5000 is taken, use the command line to run the file and you can supply a port number afterward to switch the port.
 
 > [!TIP]
 > If Windows gives you gripe, click "More Info" and then click "Run Anyway"
