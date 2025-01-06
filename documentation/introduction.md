@@ -1,8 +1,9 @@
 # Minds and Machines
 ## Connect 4 AI Program
 
-[**Download**](https://github.com/exoRift/mindsmachines-connect4/releases/tag/v1.1.0)
-[**Observer**](https://exoRift.github.io/mindsmachines-connect4)
+[**Download Server**](https://github.com/exoRift/mindsmachines-connect4/releases/tag/v1.1.0)
+
+[**Observer Site**](https://exoRift.github.io/mindsmachines-connect4)
 
 Welcome to the Minds and Machines Connect 4 moderator program.
 
